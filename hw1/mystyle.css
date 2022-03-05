@@ -1,0 +1,25 @@
+body{
+    background: url('1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: bounce; /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 2s; /* don't forget to set a duration! */
+}
+
+#login{
+    width: 300px;
+    height: 250px;
+    text-align: center;
+    overflow: hidden;
+    margin: 0 auto;
+    border: 2px solid transparent;
+    border-radius: 5px;
+}
+
+#login:hover {
+    border: 4px solid Black;
+    border-radius: 5px;
+    background: rgba(180, 180, 180, 0.3);
+    transition:border 2s;
+    transition-timing-function: ease-out;
+  }
