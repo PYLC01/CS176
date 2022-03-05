@@ -2,8 +2,18 @@ body{
     background: url('1.jpg');
     background-repeat: no-repeat;
     background-position: center;
-    animation: bounce; /* referring directly to the animation's @keyframe declaration */
-    animation-duration: 2s; /* don't forget to set a duration! */
+}
+
+#login_box{
+    width:600px;
+    height:250px;
+    margin: 0 auto;
+}
+
+#welcome{
+    width:200px;
+    float:left;
+    font-family: "Lucida Console", "Courier New", monospace;
 }
 
 #login{
