@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
     <body onload="draw('canvas',10,10,10,10)">
-        <b>Score:</b>
-        <p id="score">0</p>
-        <b>Timer:</b>
-        <p id="timer">30</p>
+        <div>
+        <p>
+            <b>Score:</b>
+            <b id="score">0</b>&nbsp;&nbsp; Use W,A,S,D to move your robot and try to get more than 80 scores!
+        </p>
+        <p>
+            <b style="color:red">Timer:</b>
+            <b style="color:red" id="timer">15</b>&nbsp;&nbsp; <b>Prize:</b>+5~15 scores randomly(So you may get all the prizes but cannot win)<br>
+            <b>Bomb:</b>You lose!&nbsp;&nbsp;<b>Timer:</b>+15s &nbsp;&nbsp;<b>Trap:</b>-20 scores
+        </p>
+        </div>
         <canvas id="canvas" width="600" height="600">
         <script src="../js/game.js"></script>
     </body>

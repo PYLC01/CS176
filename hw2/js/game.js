@@ -1,6 +1,9 @@
 initMap = (size, count, score) => {
     var Map =new Array();
-    random=myrandom(size,count);
+    var bombCount=10;
+    var timerCount=1;
+    var trapCount=15;
+    random=myrandom(size,count+bombCount+timerCount+trapCount);
     console.log(random);
     for(var i=0;i<size.height;i++){
         Map[i]=new Array();
@@ -8,7 +11,22 @@ initMap = (size, count, score) => {
             Map[i][j]=0;
             for(var k=0;k<count;++k){
                 if (Math.floor(random[k]/10)==i&&(random[k]-(10*Math.floor(random[k]/10)))==j){
-                    Map[i][j]=score;
+                    Map[i][j]=Math.round(Math.random()*15+5);//prize
+                }
+            }
+            for(var k=count;k<count+bombCount;++k){
+                if (Math.floor(random[k]/10)==i&&(random[k]-(10*Math.floor(random[k]/10)))==j){
+                    Map[i][j]=-1;//bomb
+                }
+            }
+            for(var k=count+bombCount;k<count+bombCount+timerCount;++k){
+                if (Math.floor(random[k]/10)==i&&(random[k]-(10*Math.floor(random[k]/10)))==j){
+                    Map[i][j]=-2;//timer
+                }
+            }
+            for(var k=count+bombCount+timerCount;k<count+bombCount+timerCount+trapCount;++k){
+                if (Math.floor(random[k]/10)==i&&(random[k]-(10*Math.floor(random[k]/10)))==j){
+                    Map[i][j]=-20;//trap
                 }
             }
         }
@@ -20,6 +38,10 @@ const myrandom = (size,count) => {
     var random = new Array();
     for(var i=0;i<count;++i){
         random[i]=Math.floor(Math.random()*(size.width*size.height))+1;
+        if (random[i]==100){
+            i--;
+            continue;
+        }
         for (var j=0;j<i;++j){
             if(random[i]==random[j]){
                 i--;
@@ -32,6 +54,7 @@ const myrandom = (size,count) => {
 
 const draw =(id,w,h,c,s) =>{
     var map=initMap({width:w,height:h},c,s);
+    console.log(map);
     var canvas = document.getElementById(id);
     var ctx = canvas.getContext("2d");
 
@@ -62,11 +85,44 @@ const draw =(id,w,h,c,s) =>{
     }
     prize.src = '../image/prize.svg';
 
+    bomb = new Image();
+    bomb.onload = function(){
+        for(var i=0;i<h;i++){
+            for(var j=0;j<w;j++){
+                if (map[i][j]==-1)
+                    ctx.drawImage(bomb, j*width+10,i*height+10, width-20, height-20);
+            }
+        }
+    }
+    bomb.src = '../image/bomb.svg';
+
+    timer = new Image();
+    timer.onload = function(){
+        for(var i=0;i<h;i++){
+            for(var j=0;j<w;j++){
+                if (map[i][j]==-2)
+                    ctx.drawImage(timer, j*width+10,i*height+10, width-20, height-20);
+            }
+        }
+    }
+    timer.src = '../image/timer.svg';
+
+    trap = new Image();
+    trap.onload = function(){
+        for(var i=0;i<h;i++){
+            for(var j=0;j<w;j++){
+                if (map[i][j]==-20)
+                    ctx.drawImage(trap, j*width+10,i*height+10, width-20, height-20);
+            }
+        }
+    }
+    trap.src = '../image/trap.svg';
+
     var x=10;
     var y=10;
     var score=0;
     var haveGot=0;
-    var leftTime=30;
+    var leftTime=15;
     var div = document.getElementById("timer");
     setInterval (function () {
         div.innerHTML = (leftTime-=1);
@@ -86,7 +142,20 @@ const draw =(id,w,h,c,s) =>{
                     document.getElementById("score").innerHTML=score;
                     map[Math.floor(y/height)][Math.floor(x/width)]=0;
                     haveGot++;
-                    if(haveGot==c) {window.alert("You win!");location.reload();}
+                    if(haveGot==c&&score>=80) {setTimeout(AlertPlayer, 100);}
+                    else if(haveGot==c&&score<80) {window.alert("You lose!");location.reload();}
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-1){
+                    window.alert("You lose!");
+                    location.reload();
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-2){
+                    leftTime+=15;
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-20){
+                    score+=map[Math.floor(y/height)][Math.floor(x/width)];
+                    document.getElementById("score").innerHTML=score;
+                    map[Math.floor(y/height)][Math.floor(x/width)]=0;
                 }
             }
         }
@@ -101,7 +170,20 @@ const draw =(id,w,h,c,s) =>{
                     document.getElementById("score").innerHTML=score;
                     map[Math.floor(y/height)][Math.floor(x/width)]=0;
                     haveGot++;
-                    if(haveGot==c) {window.alert("You win!");location.reload();}
+                    if(haveGot==c&&score>=80) {setTimeout(AlertPlayer, 100);}
+                    else if(haveGot==c&&score<80) {window.alert("You lose!");location.reload();}
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-1){
+                    window.alert("You lose!");
+                    location.reload();
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-2){
+                    leftTime+=15;
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-20){
+                    score+=map[Math.floor(y/height)][Math.floor(x/width)];
+                    document.getElementById("score").innerHTML=score;
+                    map[Math.floor(y/height)][Math.floor(x/width)]=0;
                 }
             }
         }
@@ -116,7 +198,20 @@ const draw =(id,w,h,c,s) =>{
                     document.getElementById("score").innerHTML=score;
                     map[Math.floor(y/height)][Math.floor(x/width)]=0;
                     haveGot++;
-                    if(haveGot==c) {window.alert("You win!");location.reload();}
+                    if(haveGot==c&&score>=80) {setTimeout(AlertPlayer, 100);}
+                    else if(haveGot==c&&score<80) {window.alert("You lose!");location.reload();}
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-1){
+                    window.alert("You lose!");
+                    location.reload();
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-2){
+                    leftTime+=15;
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-20){
+                    score+=map[Math.floor(y/height)][Math.floor(x/width)];
+                    document.getElementById("score").innerHTML=score;
+                    map[Math.floor(y/height)][Math.floor(x/width)]=0;
                 }
             }
         }
@@ -131,9 +226,27 @@ const draw =(id,w,h,c,s) =>{
                     document.getElementById("score").innerHTML=score;
                     map[Math.floor(y/height)][Math.floor(x/width)]=0;
                     haveGot++;
-                    if(haveGot==c) {window.alert("You win!");location.reload();}
+                    if(haveGot==c&&score>=80) {setTimeout(AlertPlayer, 100);}
+                    else if(haveGot==c&&score<80) {window.alert("You lose!");location.reload();}
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-1){
+                    window.alert("You lose!");
+                    location.reload();
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-2){
+                    leftTime+=15;
+                }
+                else if(map[Math.floor(y/height)][Math.floor(x/width)]==-20){
+                    score+=map[Math.floor(y/height)][Math.floor(x/width)];
+                    document.getElementById("score").innerHTML=score;
+                    map[Math.floor(y/height)][Math.floor(x/width)]=0;
                 }
             }
         }
     }
+}
+
+AlertPlayer = ()=>{
+    window.alert("You win!");
+    location.reload();
 }
