@@ -150,6 +150,7 @@ const draw =(id,w,h,c,s) =>{
                     location.reload();
                 }
                 else if(map[Math.floor(y/height)][Math.floor(x/width)]==-2){
+                    map[Math.floor(y/height)][Math.floor(x/width)]=0;
                     leftTime+=15;
                 }
                 else if(map[Math.floor(y/height)][Math.floor(x/width)]==-20){
@@ -178,6 +179,7 @@ const draw =(id,w,h,c,s) =>{
                     location.reload();
                 }
                 else if(map[Math.floor(y/height)][Math.floor(x/width)]==-2){
+                    map[Math.floor(y/height)][Math.floor(x/width)]=0;
                     leftTime+=15;
                 }
                 else if(map[Math.floor(y/height)][Math.floor(x/width)]==-20){
@@ -206,6 +208,7 @@ const draw =(id,w,h,c,s) =>{
                     location.reload();
                 }
                 else if(map[Math.floor(y/height)][Math.floor(x/width)]==-2){
+                    map[Math.floor(y/height)][Math.floor(x/width)]=0;
                     leftTime+=15;
                 }
                 else if(map[Math.floor(y/height)][Math.floor(x/width)]==-20){
@@ -234,6 +237,7 @@ const draw =(id,w,h,c,s) =>{
                     location.reload();
                 }
                 else if(map[Math.floor(y/height)][Math.floor(x/width)]==-2){
+                    map[Math.floor(y/height)][Math.floor(x/width)]=0;
                     leftTime+=15;
                 }
                 else if(map[Math.floor(y/height)][Math.floor(x/width)]==-20){
