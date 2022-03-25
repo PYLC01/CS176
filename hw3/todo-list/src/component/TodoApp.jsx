@@ -31,7 +31,6 @@ function TodoApp() {
         </section>
       </section>
       <footer className="Info">
-        <p>Double click to edit a to-do</p>
         <p>
           Created by <a href="https://github.com/PYLC01">Li Chao</a>
         </p>
