@@ -9,4 +9,4 @@ pnpm run dev
 ```
 ## UI
 
-![avatar](./1.png)
+![avatar](./2.png)
