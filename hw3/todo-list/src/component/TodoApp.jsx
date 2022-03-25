@@ -43,6 +43,7 @@ function TodoApp() {
 export default TodoApp;
 
 const arr1_todoItems = [];
+let total_count = 0;
 
 function TodoList() {
   const { Item, setItem } = React.useContext(Context);
@@ -56,7 +57,8 @@ function TodoList() {
           const text = document.getElementById('new-todo').value;
           if (text != '') {
             document.getElementById('new-todo').value = '';
-            arr1_todoItems.push(text);
+            total_count += 1;
+            arr1_todoItems.push({ content: text, unique_id: total_count });
             setItem({
               todoItems: arr1_todoItems,
               itemCount: Item.itemCount + 1,
@@ -68,56 +70,56 @@ function TodoList() {
 }
 
 let arr2_todoItems = [];
-let check_count = 0;
-let completed_index = [];
 
 function TodoItem() {
   const { Item, setItem } = React.useContext(Context);
-  arr2_todoItems = Item.todoItems;
-  if (arr2_todoItems.length != 0) {
+  if (Item.todoItems.length != 0) {
     return (
       <section className="items">
         <ul className="todoItem" id="todoItem">
           {Item.todoItems.map((item, index) => (
-            <li key={index} id={index.toString()}>
+            <li key={index} id={item.unique_id.toString()}>
               <input
                 className="toggle"
                 type="checkbox"
-                id={`${index.toString()}a`}
+                id={`${item.unique_id.toString()}a`}
                 onChange={() => {
-                  if (document.getElementById(`${index.toString()}a`).checked) {
-                    document.getElementById(index.toString()).className =
-                      'completed';
+                  if (
+                    document.getElementById(`${item.unique_id.toString()}a`)
+                      .checked
+                  ) {
+                    document.getElementById(
+                      item.unique_id.toString(),
+                    ).className = 'completed';
                     arr2_todoItems = Item.todoItems;
                     setItem({
                       todoItems: arr2_todoItems,
                       itemCount: Item.itemCount - 1,
                     });
-                    completed_index.push({ index });
-                    check_count += 1;
-                    if (check_count == 1) {
-                      creatButton(Item, setItem);
-                    }
                   } else {
-                    document.getElementById(index.toString()).className = '';
+                    document.getElementById(
+                      item.unique_id.toString(),
+                    ).className = '';
                     arr2_todoItems = Item.todoItems;
                     setItem({
                       todoItems: arr2_todoItems,
                       itemCount: Item.itemCount + 1,
                     });
-                    check_count -= 1;
-                    if (check_count == 0) {
-                      deleteButton();
-                    }
                   }
                 }}></input>
-              <label>{item}</label>
+              <label>{item.content}</label>
               <button
                 className="destroy"
                 type="button"
                 onClick={() => {
-                  arr2_todoItems.splice({ index }, 1);
-                  if (document.getElementById(`${index.toString()}a`).checked) {
+                  const checked = document.getElementById(
+                    `${item.unique_id.toString()}a`,
+                  ).checked
+                    ? 1
+                    : 0;
+                  document.getElementById(item.unique_id.toString()).className =
+                    'deleted';
+                  if (checked) {
                     setItem({
                       todoItems: arr2_todoItems,
                       itemCount: Item.itemCount,
@@ -143,42 +145,3 @@ function TodoItem() {
     return <ul></ul>;
   }
 }
-
-function creatButton(Item, setItem) {
-  const todoFooter = document.getElementById('footer');
-  const button = document.createElement('input');
-  button.setAttribute('type', 'button');
-  button.setAttribute('id', 'clear-completed');
-  button.setAttribute('value', 'clear completed');
-  button.setAttribute('class', 'clear-completed');
-  todoFooter.appendChild(button);
-  button.onClick = {
-    clear_completed() {
-      for (let i = 0; i < completed_index.length; ++i) {
-        arr2_todoItems.splice(i, 1);
-        setItem({
-          todoItems: arr2_todoItems,
-          itemCount: Item.itemCount - 1,
-        });
-      }
-      completed_index = [];
-    },
-  };
-}
-
-function deleteButton() {
-  const todoFooter = document.getElementById('footer');
-  const button = document.getElementById('clear-completed');
-  todoFooter.removeChild(button);
-}
-
-/* function clear_completed(arr2_todoItems, Item, setItem, completed_index) {
-  console.log('clear');
-  for (let i = 0; i < completed_index.length; ++i) {
-    arr2_todoItems.splice({ i }, 1);
-    setItem({
-      todoItems: arr2_todoItems,
-      itemCount: Item.itemCount - 1,
-    });
-  }
-} */
