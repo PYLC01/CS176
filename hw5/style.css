@@ -215,8 +215,8 @@ kbd {
     border-radius: 39px;
     box-shadow: 0 1px 39px rgba(133,250,202,.34);
     display: flex;
-    height: 48px;
     justify-content: center;
+    height: 48px;
     line-height: 48px;
     opacity: .8;
     width: 147px;

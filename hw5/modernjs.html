@@ -8,21 +8,23 @@
         <script type="text/javascript">
         function addevent(){
             var Div = document.getElementById("1");
-            console.log(Div);
             position=0;
-            Div.onmousedown = function(ev) {
-                var o = event || ev;
-                oX = o.clientX;
-                console.log(oX);
-                Div.onmousemove = function(ev) {
+            if(document.body.clientWidth<=1200){
+                Div.onmousedown = function(ev) {
                     var o = event || ev;
-                    position+=oX - o.clientX;
-                    Div.style.transform = "translateX("+position+"px)"
-                    console.log("position:",position);
-                    Div.onmouseup = function() {
-                        Div.onmousemove = null;
-                        Div.onmouseup = null;
+                    oX = o.clientX;
+                    console.log(oX);
+                    Div.onmousemove = function(ev) {
+                        var o = event || ev;
+                        position+=oX - o.clientX;
+                        Div.style.transform = "translateX("+position+"px)"
+                        console.log("position:",position);
                     }
+                }
+                Div.onmouseup = function() {
+                    console.log("111111");
+                    Div.onmousemove = null;
+                    //document.onmouseup = null;
                 }
             }
         }
@@ -91,7 +93,7 @@
                         </div>
                     </header>
                 </div>
-                <div class="swiper swiper-initialized swiper-horizontal navTabs_iZ7k">
+                <div class="swiper swiper-initialized swiper-horizontal navTabs_iZ7k" id="2">
                     <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translateX(0px);" id="1">
                         <div class="swiper-slide tab_He0c swiper-slide-active">
                             <a style="text-decoration: none;">移动页面</a>
